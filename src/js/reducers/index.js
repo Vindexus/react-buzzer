@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux'
 
-import userReducer from './users'
-import tweetsReducer from './tweets'
+import buzzesReducer from './buzzes'
+import namesReducer from './names'
 
-const reducer = combineReducers({
-  user: userReducer,
-  tweets: tweetsReducer
+export default combineReducers({
+  buzzes: buzzesReducer,
+  names: namesReducer
 })
-export default reducer

@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 import ReactDOM from "react-dom"
 import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 
-import { Provider, connect } from "react-redux"
+import { Provider } from "react-redux"
 
 import { applyMiddleware, createStore } from "redux"
 
@@ -14,43 +14,23 @@ import promise from "redux-promise-middleware"
 
 import reducer from "./reducers"
 
-import * as userActions from "./actions/users"
-
 import Layout from "./layout/Layout"
 
 import Buzzing from "./pages/Buzzing"
 import Names from "./pages/Names"
 
 const initState = {
-  user: {
-    users: [],
-    loading: false,
+  buzzes: {
+    buzzes: [],
+    loading: true,
     error: null
-  }
+  },
+  names: []
 }
 
-const error = (store) => (next) => (action) => {
-  try {
-    next(action)
-  }
-  catch(ex) {
-    console.error("OH HNO", ex)
-  }
-}
-
-const middleware = applyMiddleware(promise(), thunk, logger(), error)
+const middleware = applyMiddleware(promise(), thunk, logger())
 
 const store = createStore(reducer, initState, middleware)
-
-store.subscribe(() => {
-  console.log('state', store.getState())
-})
-
-
-const user = {
-  name: 'Colin' + new Date().getTime().toString().substr(-3),
-  role: 'Dunno'
-}
 
 ReactDOM.render(
 <Provider store={store}>
@@ -58,7 +38,6 @@ ReactDOM.render(
     <Route path="/" component={Layout}>
       <IndexRoute component={Buzzing}></IndexRoute>
       <Route path="names" name="names" component={Names}></Route>
-
     </Route>
   </Router>
 </Provider>, document.getElementById('app'))
